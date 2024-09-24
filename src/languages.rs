@@ -16,5 +16,10 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("h", "C/C++ Header File");
   lang_map.insert("hpp", "C++ Header File");
 
+  // Assembly languages
+  lang_map.insert("s", "Assembly");
+  lang_map.insert("S", "Assembly");
+  lang_map.insert("asm", "Assembly");
+
   lang_map
 }
