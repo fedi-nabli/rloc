@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+pub const GENERIC_FILES: &'static [&str] = &["Makefile", "CMakeLists.txt"];
+
 pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   let mut lang_map = HashMap::new();
 
@@ -75,11 +77,13 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   // Markup languages
   lang_map.insert("tex", "LaTeX");
   lang_map.insert("md", "Markdown");
+  lang_map.insert("txt", "Text File");
   lang_map.insert("rst", "reStructuredText");
 
   // Build tools
   lang_map.insert("mk", "Makefile");
   lang_map.insert("cmake", "CMake");
+  lang_map.insert("dockerfile", "Docker File");
 
   lang_map
 }
