@@ -28,5 +28,16 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("py", "Python");
   lang_map.insert("pyx", "Cython");
 
+  // Web languages
+  lang_map.insert("css", "CSS");
+  lang_map.insert("php", "PHP");
+  lang_map.insert("rb", "Ruby");
+  lang_map.insert("html", "HTML");
+  lang_map.insert("js", "JavaScript");
+  lang_map.insert("ts", "TypeScript");
+  lang_map.insert("erb", "Embedded Ruby");
+  lang_map.insert("jsx", "JavaScript React");
+  lang_map.insert("tsx", "TypeScript React");
+
   lang_map
 }
