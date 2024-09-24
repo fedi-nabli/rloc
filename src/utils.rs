@@ -1,4 +1,5 @@
 use crate::file_stats::FileStats;
+use crate::languages::GENERIC_FILES;
 
 use regex::Regex;
 use std::path::Path;
@@ -7,13 +8,40 @@ use std::io::{BufRead, BufReader};
 
 // Process a single file
 pub fn process_file(path: &Path, lang_map: &std::collections::HashMap<&'static str, &'static str>) {
+  let file_name = path.file_name().and_then(|f| f.to_str()).unwrap_or("unknown");
+
   if let Some(extension) = path.extension() {
     if let Some(ext_str) = extension.to_str() {
       let language = lang_map.get(ext_str).copied().unwrap_or("Unknown");
       println!("Processing file: {:?}, detected language: {}", path.display(), language);
 
       let mut stats = count_lines(path);
+      stats.file_type = language.to_string();
+
+      println!("Total lines: {}", stats.total_lines);
+      println!("Code lines: {}", stats.code_lines);
+      println!("Blank lines: {}", stats.blank_lines);
+      println!("Comment lines: {}", stats.comment_lines);
+    }
+  } else {
+    // Check against GENERIC_FILES if there is no extension
+    if GENERIC_FILES.contains(&file_name) {
+      let language = format!("{}", file_name);
+      println!("Processing generic file: {:?}, detected language: {}", path.display(), language);
+
+      let mut stats = count_lines(path);
       stats.file_type = language;
+
+      println!("Total lines: {}", stats.total_lines);
+      println!("Code lines: {}", stats.code_lines);
+      println!("Blank lines: {}", stats.blank_lines);
+      println!("Comment lines: {}", stats.comment_lines);
+    } else {
+      // No extension and not in GENERIC_FILES
+      println!("Processing file: {:?}, detected language: Unknown", path.display());
+
+      let mut stats = count_lines(path);
+      stats.file_type = "Unknown".to_string();
 
       println!("Total lines: {}", stats.total_lines);
       println!("Code lines: {}", stats.code_lines);
