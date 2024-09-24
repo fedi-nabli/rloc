@@ -68,9 +68,14 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("rkt", "Racket");
   lang_map.insert("hs", "Haskell");
 
-  // Databases
+  // Database Languages
   lang_map.insert("sql", "SQL");
   lang_map.insert("db", "Database File");
+
+  // Markup languages
+  lang_map.insert("tex", "LaTeX");
+  lang_map.insert("md", "Markdown");
+  lang_map.insert("rst", "reStructuredText");
 
   lang_map
 }
