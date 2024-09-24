@@ -53,5 +53,13 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("ps1", "PowerShell");
   lang_map.insert("sh", "Shell Script");
 
+  // Data and configuration files
+  lang_map.insert("xml", "XML");
+  lang_map.insert("ini", "INI");
+  lang_map.insert("yml", "YAML");
+  lang_map.insert("yaml", "YAML");
+  lang_map.insert("json", "JSON");
+  lang_map.insert("toml", "TOML");
+
   lang_map
 }
