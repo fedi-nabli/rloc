@@ -1,17 +1,34 @@
-mod file_stats;
+mod utils;
 mod languages;
+mod file_stats;
 
+use clap::Parser;
 use std::path::Path;
 
-fn main() {
-  println!("Hello, world!");
-  let lang_map = languages::get_languages_map();
-  let path = Path::new("main.asm");
+#[derive(Parser)]
+#[command(name = "rloc")]
+#[command(version = "1.0")]
+#[command(about = "Counts lines of code in files and directories")]
+struct Cli {
+  /// Files or directories to count lines in
+  #[arg(short, long, required = true, num_args = 1.., value_name = "FILES")]
+  files: Vec<String>,
+}
 
-  if let Some(extension) = path.extension() {
-    if let Some(ext_str) = extension.to_str() {
-      println!("extension is {}", ext_str);
-      println!("extension detected is {}", lang_map.get(ext_str).copied().unwrap());
+fn main() {
+  let args = Cli::parse();
+  let lang_map = languages::get_languages_map();
+  // let generic_file = languages::GENERIC_FILES;
+
+  for input in args.files {
+    let path = Path::new(&input);
+
+    if path.is_file() {
+      utils::process_file(path, &lang_map);
+    } else if path.is_dir() {
+      utils::process_directory(path, &lang_map);
+    } else {
+      println!("{} is neither a valid file not directory path", input);
     }
   }
 }
