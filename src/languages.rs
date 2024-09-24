@@ -39,5 +39,12 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("jsx", "JavaScript React");
   lang_map.insert("tsx", "TypeScript React");
 
+  // Java JVM-based languages
+  lang_map.insert("java", "Java");
+  lang_map.insert("kt", "Kotlin");
+  lang_map.insert("scala", "Scala");
+  lang_map.insert("clj", "Clojure");
+  lang_map.insert("groovy", "Groovy");
+
   lang_map
 }
