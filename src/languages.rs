@@ -77,5 +77,9 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("md", "Markdown");
   lang_map.insert("rst", "reStructuredText");
 
+  // Build tools
+  lang_map.insert("mk", "Makefile");
+  lang_map.insert("cmake", "CMake");
+
   lang_map
 }
