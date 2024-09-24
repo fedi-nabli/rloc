@@ -61,5 +61,12 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("json", "JSON");
   lang_map.insert("toml", "TOML");
 
+  // Functional languages
+  lang_map.insert("fs", "F#");
+  lang_map.insert("ml", "OCaml");
+  lang_map.insert("lisp", "Lisp");
+  lang_map.insert("rkt", "Racket");
+  lang_map.insert("hs", "Haskell");
+
   lang_map
 }
