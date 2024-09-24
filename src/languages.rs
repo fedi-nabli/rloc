@@ -46,5 +46,12 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("clj", "Clojure");
   lang_map.insert("groovy", "Groovy");
 
+  // Shell languages
+  lang_map.insert("zsh", "Zsh");
+  lang_map.insert("bash", "Bash");
+  lang_map.insert("bat", "Batch");
+  lang_map.insert("ps1", "PowerShell");
+  lang_map.insert("sh", "Shell Script");
+
   lang_map
 }
