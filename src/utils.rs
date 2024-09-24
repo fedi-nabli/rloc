@@ -4,10 +4,11 @@ use crate::languages::GENERIC_FILES;
 use regex::Regex;
 use std::path::Path;
 use std::fs::{self, File};
+use indicatif::ProgressBar;
 use std::io::{BufRead, BufReader};
 
 // Process a single file
-pub fn process_file(path: &Path, lang_map: &std::collections::HashMap<&'static str, &'static str>) {
+pub fn process_file(path: &Path, lang_map: &std::collections::HashMap<&'static str, &'static str>) -> FileStats {
   let file_name = path.file_name().and_then(|f| f.to_str()).unwrap_or("unknown");
 
   if let Some(extension) = path.extension() {
@@ -17,11 +18,11 @@ pub fn process_file(path: &Path, lang_map: &std::collections::HashMap<&'static s
 
       let mut stats = count_lines(path);
       stats.file_type = language.to_string();
+      stats.file_name = path.display().to_string();
 
-      println!("Total lines: {}", stats.total_lines);
-      println!("Code lines: {}", stats.code_lines);
-      println!("Blank lines: {}", stats.blank_lines);
-      println!("Comment lines: {}", stats.comment_lines);
+      stats
+    } else {
+      return FileStats::new("Unknown");
     }
   } else {
     // Check against GENERIC_FILES if there is no extension
@@ -31,28 +32,24 @@ pub fn process_file(path: &Path, lang_map: &std::collections::HashMap<&'static s
 
       let mut stats = count_lines(path);
       stats.file_type = language;
+      stats.file_name = path.display().to_string();
 
-      println!("Total lines: {}", stats.total_lines);
-      println!("Code lines: {}", stats.code_lines);
-      println!("Blank lines: {}", stats.blank_lines);
-      println!("Comment lines: {}", stats.comment_lines);
+      stats
     } else {
       // No extension and not in GENERIC_FILES
       println!("Processing file: {:?}, detected language: Unknown", path.display());
 
       let mut stats = count_lines(path);
       stats.file_type = "Unknown".to_string();
+      stats.file_name = path.display().to_string();
 
-      println!("Total lines: {}", stats.total_lines);
-      println!("Code lines: {}", stats.code_lines);
-      println!("Blank lines: {}", stats.blank_lines);
-      println!("Comment lines: {}", stats.comment_lines);
+      stats
     }
   }
 }
 
 // Recursively process all files in a directory
-pub fn process_directory(dir: &Path, lang_map: &std::collections::HashMap<&'static str, &'static str>) {
+pub fn process_directory(dir: &Path, lang_map: &std::collections::HashMap<&'static str, &'static str>, pb: &ProgressBar, stats_vec: &mut Vec<FileStats>) {
   let entries = fs::read_dir(dir).expect("Unable to read directory");
 
   for entry in entries {
@@ -60,10 +57,12 @@ pub fn process_directory(dir: &Path, lang_map: &std::collections::HashMap<&'stat
     let path = entry.path();
 
     if path.is_file() {
-      process_file(&path, lang_map);
+      let file_stats = process_file(&path, lang_map);
+      stats_vec.push(file_stats);
+      pb.inc(1); // Increment progress bar for each file
     } else if path.is_dir() {
       // Recursively process subdirectories
-      process_directory(&path, lang_map);
+      process_directory(&path, lang_map, pb, stats_vec);
     }
   }
 }
