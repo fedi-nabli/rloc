@@ -21,5 +21,12 @@ pub fn get_languages_map() -> HashMap<&'static str, &'static str> {
   lang_map.insert("S", "Assembly");
   lang_map.insert("asm", "Assembly");
 
+  // Scripting languages
+  lang_map.insert("r", "R");
+  lang_map.insert("lua", "Lua");
+  lang_map.insert("pl", "Perl");
+  lang_map.insert("py", "Python");
+  lang_map.insert("pyx", "Cython");
+
   lang_map
 }
