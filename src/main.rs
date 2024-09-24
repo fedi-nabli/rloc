@@ -1,3 +1,4 @@
+mod file_stats;
 mod languages;
 
 use std::path::Path;
